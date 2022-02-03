@@ -1,0 +1,53 @@
+<ion-header class="header-container">
+  <ion-img
+    *ngIf="showLoader"
+    src="../../assets/loader.svg"
+    class="loader"
+  ></ion-img>
+  <div class="header">
+    <div class="profile">
+      <ion-img src="{{coverImage}}"></ion-img>
+    </div>
+    <div class="info">
+      <div>{{username}}</div>
+      <div>Title: {{title}}</div>
+    </div>
+    <div id="options" class="optionsClosed">
+      <ion-img
+        class="dashes"
+        (click)="navigate('home')"
+        src="../../assets/images/home.png"
+      ></ion-img>
+      <ion-img
+        class="dashes"
+        (click)="signOut()"
+        src="../../assets/images/logout.png"
+      ></ion-img>
+    </div>
+  </div>
+
+  <div class="redstrip">
+    <div>Sign and {{orderType}}</div>
+  </div>
+  <div class="yellowstrip">
+    <div>{{trackId}} / {{orderId}}</div>
+  </div>
+  <div class="bluestrip">
+    <div>{{signatureData}}</div>
+  </div>
+  <button class="clear-btn" (click)="clear()">Clear</button>
+</ion-header>
+
+<ion-content>
+  <div>
+    <canvas class="signature" #canvas style="touch-action: none"></canvas>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <div class="footer">
+    <button class="sign-btn" [disabled]="isCanvasBlank()" (click)="save()">
+      Sign and {{orderType}}
+    </button>
+  </div>
+</ion-footer>

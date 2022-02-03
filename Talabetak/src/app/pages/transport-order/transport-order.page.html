@@ -1,0 +1,43 @@
+<ion-header class="header-container">
+  <div class="header">
+    <div class="profile">
+      <ion-img src="{{coverImage}}"></ion-img>
+    </div>
+    <div class="info">
+      <div>{{username}}</div>
+      <div>Title: {{title}}</div>
+    </div>
+    <div id="options" class="optionsClosed">
+      <ion-img
+        class="dashes"
+        (click)="navigate('home')"
+        src="../../assets/images/home.png"
+      ></ion-img>
+      <ion-img
+        class="dashes"
+        (click)="signOut()"
+        src="../../assets/images/logout.png"
+      ></ion-img>
+    </div>
+  </div>
+
+  <div class="redstrip">
+    <div>{{orderType}}</div>
+  </div>
+  <div class="yellowstrip">
+    <div>{{trackId}}</div>
+  </div>
+  <div class="bluestrip">
+    <div>{{orderId}}</div>
+  </div>
+  <div class="money-info">
+    <div class="from">
+      <div>From:</div>
+      <div>{{sender}}</div>
+    </div>
+    <div class="to">
+      <div>To:</div>
+      <div>{{receiver}}</div>
+    </div>
+  </div>
+</ion-header>

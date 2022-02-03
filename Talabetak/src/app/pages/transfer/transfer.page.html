@@ -1,0 +1,72 @@
+<ion-header class="header-container">
+  <ion-img
+    *ngIf="showLoader"
+    src="../../assets/loader.svg"
+    class="loader"
+  ></ion-img>
+  <div class="header">
+    <div class="profile">
+      <ion-img src="{{coverImage}}"></ion-img>
+    </div>
+    <div class="info">
+      <div>{{username}}</div>
+      <div>Title: {{title}}</div>
+    </div>
+    <div id="options" class="optionsClosed">
+      <ion-img
+        class="dashes"
+        (click)="navigate('home')"
+        src="../../assets/images/home.png"
+      ></ion-img>
+      <ion-img
+        class="dashes"
+        (click)="signOut()"
+        src="../../assets/images/logout.png"
+      ></ion-img>
+    </div>
+  </div>
+
+  <div class="redstrip">
+    <div>{{transferType}}</div>
+  </div>
+  <div class="yellowstrip">
+    <div>{{trackId}}</div>
+  </div>
+  <div class="bluestrip" *ngIf="isShown" id="divshow">
+    <div>To Branch: {{receivingBranch}}</div>
+    <div>Warehouse: {{receivingWarehouse}}</div>
+  </div>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="{{class}}">
+    <div class="scan-btn">
+      <ion-img
+        (click)="scan()"
+        src="../../assets/images/scan-btn.png"
+      ></ion-img>
+    </div>
+    <div class="border"></div>
+    <div class="items-holder">
+      <div class="items">
+        <div
+          (click)="getOrder(object)"
+          *ngFor="let object of mapOrders"
+          class="item"
+        >
+          <ion-img
+            class="item-ico"
+            src="../../assets/images/item-ico.png"
+          ></ion-img>
+          <p>{{object.text}}</p>
+          <div class="item-done" *ngIf="object.done">
+            <ion-img src="../../assets/images/done.png"></ion-img>
+          </div>
+          <div class="item-done" *ngIf="!object.done">
+            <ion-img src="../../assets/images/pending.png"></ion-img>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

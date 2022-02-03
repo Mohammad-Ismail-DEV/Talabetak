@@ -1,0 +1,65 @@
+<ion-header class="header-container">
+  <ion-img
+    *ngIf="showLoader"
+    src="../../assets/loader.svg"
+    class="loader"
+  ></ion-img>
+  <div class="header">
+    <div class="profile">
+      <ion-img src="{{coverImage}}"></ion-img>
+    </div>
+    <div class="info">
+      <div>{{username}}</div>
+      <div>Title: {{title}}</div>
+    </div>
+    <div id="options" class="optionsClosed">
+      <ion-img
+        class="dashes"
+        (click)="refresh()"
+        src="../../assets/images/refresh.png"
+      ></ion-img>
+      <ion-img
+        class="dashes"
+        (click)="signOut()"
+        src="../../assets/images/logout.png"
+      ></ion-img>
+    </div>
+  </div>
+
+  <div class="redstrip">
+    <div>Transfers assigned to the Driver</div>
+  </div>
+</ion-header>
+
+<ion-content class="menu">
+  <div class="menu">
+    <button (click)="navigate('pickup')" class="button">
+      <p class="left">Pickup</p>
+      <p class="right">{{pickupCount}}</p>
+    </button>
+    <button (click)="navigate('delivery')" class="button">
+      <p class="left">Delivery</p>
+      <p class="right">{{deliveryCount}}</p>
+    </button>
+    <button (click)="navigate('return')" class="button">
+      <p class="left">Return</p>
+      <p class="right">{{returnCount}}</p>
+    </button>
+    <button (click)="navigate('transport')" class="button">
+      <p class="left">Transport</p>
+      <p class="right">{{transportCount}}</p>
+    </button>
+  </div>
+</ion-content>
+<!-- <ion-footer class="footer">
+  <div class="doughnut-holder">
+    <canvas
+      baseChart
+      [data]="doughnutChartData"
+      [labels]="doughnutChartLabels"
+      [chartType]="doughnutChartType"
+      [options]="donutOptions"
+    ></canvas>
+  </div>
+  <p class="done-percentage">{{percentage}}%</p>
+</ion-footer> -->

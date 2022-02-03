@@ -1,0 +1,124 @@
+<ion-header class="header-container">
+  <ion-img
+    *ngIf="showLoader"
+    src="../../assets/loader.svg"
+    class="loader"
+  ></ion-img>
+  <div *ngIf="showChooser" (click)="closeChooser()" class="chooser">
+    <button (click)="paymentMethod('ll')" class="chooser-button">
+      {{payll}}
+    </button>
+    <button (click)="paymentMethod('usd')" class="chooser-button">
+      {{payusd}}
+    </button>
+  </div>
+  <div class="header">
+    <div class="profile">
+      <ion-img src="{{coverImage}}"></ion-img>
+    </div>
+    <div class="info">
+      <div>{{username}}</div>
+      <div>Title: {{title}}</div>
+    </div>
+    <div id="options" class="optionsClosed">
+      <ion-img
+        class="dashes"
+        (click)="navigate('home')"
+        src="../../assets/images/home.png"
+      ></ion-img>
+      <ion-img
+        class="dashes"
+        (click)="signOut()"
+        src="../../assets/images/logout.png"
+      ></ion-img>
+    </div>
+  </div>
+
+  <div class="redstrip">
+    <div>{{orderType}}</div>
+  </div>
+  <div class="yellowstrip">
+    <div>{{trackId}}</div>
+  </div>
+  <div class="bluestrip">
+    <div>{{orderId}}</div>
+  </div>
+  <div class="social">
+    <a href="https://api.whatsapp.com/send?phone=+961{{receiverPhoneNumber}}"
+      ><ion-img
+        class="social-item"
+        src="../../assets/images/whatsapp.jpg"
+      ></ion-img
+    ></a>
+    <a href="sms:+961{{receiverPhoneNumber}}">
+      <ion-img
+        class="social-item"
+        src="../../assets/images/messages.png"
+      ></ion-img>
+    </a>
+    <a href="tel:+961{{receiverPhoneNumber}}">
+      <ion-img
+        class="social-item"
+        src="../../assets/images/dialer.png"
+      ></ion-img
+    ></a>
+    <ion-img
+      (click)="upload()"
+      class="social-item"
+      src="../../assets/images/camera.jpg"
+    ></ion-img>
+    <ion-img
+      (click)="openMaps()"
+      class="social-item"
+      src="../../assets/images/maps.png"
+    ></ion-img>
+  </div>
+  <div class="money-info">
+    <div class="from">
+      <div>From:</div>
+      <div>{{sender}}</div>
+    </div>
+    <div class="to">
+      <div>To:</div>
+      <div>{{receiver}}</div>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="money-info">
+    <div class="pay-collect">
+      <div style="margin: 2px">Pay to receiver LBP</div>
+      <br />
+      <div style="margin: 2px">Pay to receiver USD</div>
+    </div>
+    <div class="money">
+      <div>{{payRecLBP}}</div>
+      <br />
+      <div>{{payRecUSD}}</div>
+    </div>
+  </div>
+  <!--<div class="money-info">
+    <div class="pay-collect">
+      <div style="margin: 2px">Collect from receiver LBP</div>
+      <br />
+      <div style="margin: 2px">Collect from receiver USD</div>
+    </div>
+    <div class="money">
+      <div>{{collectRecLBP}}</div>
+      <br />
+      <div>{{collectRecUSD}}</div>
+    </div>
+  </div>-->
+</ion-content>
+
+<ion-footer>
+  <div class="footer">
+    <div class="signature">
+      <ion-img
+        (click)="chooser()"
+        src="../../assets/images/signature.png"
+      ></ion-img>
+    </div>
+  </div>
+</ion-footer>

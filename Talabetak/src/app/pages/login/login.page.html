@@ -1,0 +1,24 @@
+<ion-content [fullscreen]="true">
+  <ion-img
+    *ngIf="showLoader"
+    src="../../assets/loader.svg"
+    class="loader"
+  ></ion-img>
+  <div *ngIf="showLogo">
+    <form (ngSubmit)="loader($event)" swIsLoading="button-one" class="page">
+      <div class="logo-holder">
+        <ion-img src="{{companyImage}}" class="logo"></ion-img>
+      </div>
+      <input id="username" placeholder="Username" class="input-login" />
+      <br />
+      <input
+        id="password"
+        type="password"
+        placeholder="Password"
+        class="input-login"
+      />
+      <br />
+      <button id="submit" class="login-button">Log in</button>
+    </form>
+  </div>
+</ion-content>

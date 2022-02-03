@@ -1,0 +1,7 @@
+{
+  "name": "Talabetak-ionic-angular",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
