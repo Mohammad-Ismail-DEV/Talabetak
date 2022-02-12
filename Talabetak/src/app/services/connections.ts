@@ -512,16 +512,16 @@ export class Connections {
       });
   }
 
-  setPickedUP() {
+  setPickedUP(order) {
     var headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json');
     headers = headers.append('Authorization', 'Bearer ' + localStorage.getItem("token"));
     let listOrders: any = [];
-    listOrders.push(JSON.parse(localStorage.getItem("order")).order);
+    listOrders.push(order.order);
     let dto: any = {
       orders: listOrders,
       transferTrackId: String(this.trackId),
-    };
+		};
     this.http
       .post<any>(
         this.baseUrl + '/ordermngmt/ordermobile/setPickedUP',
@@ -531,12 +531,12 @@ export class Connections {
       .subscribe(async (data) => {});
   }
 
-  setDelivered() {
+  setDelivered(order) {
     var headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json');
     headers = headers.append('Authorization', 'Bearer ' + localStorage.getItem("token"));
     let listOrders: any = [];
-    listOrders.push(JSON.parse(localStorage.getItem("order")).order);
+    listOrders.push(order.order);
     let dto: any = {
       orders: listOrders,
       transferTrackId: this.trackId,
@@ -550,13 +550,13 @@ export class Connections {
       .subscribe(async (data) => {});
   }
 
-  setReturned() {
+  setReturned(order) {
     var headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json');
     headers = headers.append('Authorization', 'Bearer ' + localStorage.getItem("token"));
 
     let listOrders: any = [];
-    listOrders.push(JSON.parse(localStorage.getItem("order")).order);
+    listOrders.push(order.order);
     let dto: any = {
       orders: listOrders,
       returned: true,
@@ -572,14 +572,15 @@ export class Connections {
       .subscribe(async (data) => {});
   }
 
-  setClosedOPU() {
+  setClosedOPU(order) {
     var headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json');
-    headers = headers.append('Authorization', 'Bearer ' + localStorage.getItem("token"));
+		headers = headers.append('Authorization', 'Bearer ' + localStorage.getItem("token"));
+		let dto = { order: order.order, transferTransferTrackId: this.trackId }
     this.http
       .post<any>(
         this.baseUrl + '/ordermngmt/ordermobile/setClosedOPU',
-        { order: JSON.parse(localStorage.getItem("order")).order, transferTransferTrackId: this.trackId },
+        dto,
         { headers: headers }
       )
       .subscribe((data) => {});
@@ -589,15 +590,17 @@ export class Connections {
 		console.log(result)
     var headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json');
-    headers = headers.append('Authorization', 'Bearer ' + localStorage.getItem("token"));
+		headers = headers.append('Authorization', 'Bearer ' + localStorage.getItem("token"));
+		let object = {
+			order: JSON.parse(localStorage.getItem("order")).order,
+			transferTransferTrackId: this.trackId,
+			listScreenShots: result,
+		}
+		console.log({object})
     this.http
       .post<any>(
         this.baseUrl + '/ordermngmt/ordermobile/addScreenShotToOrder',
-        {
-          order: JSON.parse(localStorage.getItem("order")).order,
-          transferTransferTrackId: this.trackId,
-          listScreenShots: result,
-        },
+        object,
         { headers: headers }
       )
       .subscribe((data) => {});

@@ -85,13 +85,12 @@ export class SignaturePage implements OnInit, AfterViewInit {
   async save() {
     const img = this.signaturePad.toDataURL();
 		await this.maps();
-		console.log({img})
-    this.signature = img.replace('data:image/png;base64,', '');
+		this.signature = img.replace('data:image/png;base64,', '');
     if (this.conn.orderType === 'Pickup') {
       this.order.order.senderAddress.latitude = this.conn.latitude;
       this.order.order.senderAddress.longitude = this.conn.longitude;
-      this.order.order.pickupSignature = this.signature;
-      this.conn.setPickedUP();
+			this.order.order.pickupSignature = this.signature;
+      this.conn.setPickedUP(this.order);
       this.clear();
 			this.showLoader = true
 			this.conn.findTransferByTrackIdSign(localStorage.getItem("trackId"),this.transferData.class, this.transferData.receivingBranch, this.transferData.receivingWarehouse, this.transferData.status);
@@ -105,7 +104,7 @@ export class SignaturePage implements OnInit, AfterViewInit {
 			this.order.order.packagePriceLBPCurrencyDollar = this.conn.packagePriceLBPCurrencyDollar;
 			this.order.order.orderRate = this.conn.orderRate;
 			this.order.order.packagePricesAND = this.conn.packagePricesAND;
-      this.conn.setDelivered();
+      this.conn.setDelivered(this.order);
 			this.clear();
 			this.showLoader = true
 			this.conn.findTransferByTrackIdSign(localStorage.getItem("trackId"),this.transferData.class, this.transferData.receivingBranch, this.transferData.receivingWarehouse, this.transferData.status); 
@@ -114,7 +113,7 @@ export class SignaturePage implements OnInit, AfterViewInit {
       this.order.order.receiverAddress.latitude = this.conn.latitude;
       this.order.order.receiverAddress.longitude = this.conn.longitude;
       this.order.order.returnSignature = this.signature;
-      this.conn.setReturned();
+      this.conn.setReturned(this.order);
       this.clear();
 			this.showLoader = true
 			this.conn.findTransferByTrackIdSign(localStorage.getItem("trackId"),this.transferData.class, this.transferData.receivingBranch, this.transferData.receivingWarehouse, this.transferData.status);
@@ -123,7 +122,7 @@ export class SignaturePage implements OnInit, AfterViewInit {
 			this.order.order.senderAddress.latitude = this.conn.latitude;
 			this.order.order.senderAddress.longitude = this.conn.longitude;
 			this.order.order.opuPickupSignature = this.signature;
-			this.conn.setClosedOPU();
+			this.conn.setClosedOPU(this.order);
 			this.clear();
 			this.showLoader = true
 			this.conn.findTransferByTrackIdSign(localStorage.getItem("trackId"),this.transferData.class, this.transferData.receivingBranch, this.transferData.receivingWarehouse, this.transferData.status);
