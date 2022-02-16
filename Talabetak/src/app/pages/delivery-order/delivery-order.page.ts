@@ -92,207 +92,252 @@ export class DeliveryOrderPage implements OnInit {
 	}
 
 	chooser() {
-
 		var headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('Content-Type', 'application/json');
-    headers = headers.append('Authorization', 'Bearer ' + localStorage.getItem("token"));
-    this.http
-      .get<any>(baseUrl + '/ordermngmt/ordermobile/getCompanyUSDMainRate/', {
-        headers,
-      })
+		headers = headers.append("Content-Type", "application/json");
+		headers = headers.append(
+			"Authorization",
+			"Bearer " + localStorage.getItem("token")
+		);
+		this.http
+			.get<any>(this.conn.baseUrl + "/ordermngmt/ordermobile/getCompanyUSDMainRate/", {
+			headers,
+			})
 			.subscribe(async (data) => {
-				this.showChooser = false;
-
-				let currentRATE: any                         = +(data);
-				this.conn.currentCompanyRate                 = currentRATE;
-
-		this.payll = "0";
-		this.payusd = "1";
-
-		let packagePriceLBPCurrencyDollar: any;
-		let dcFinal: any;
-
-		let andCapital: any = " AND ";
-		let andMin: any = " and ";
-		let orCapital: any = " OR ";
-		let orMin: any = " or ";
-
-		let lastShowing: any = "";
-
-		let isAndOrder: boolean 							       = this.myCurrentOrder.packagePricesAND;
-		let deliveryCostPaidBySender: boolean 	     = this.myCurrentOrder.deliveryCostPaidBySender;
-		let deliveryCostPaidBySenderPartial: boolean = this.myCurrentOrder.deliveryCostPaidBySenderPartial;
-		
-		let packagePriceInLBP: any 								   = this.myCurrentOrder.packagePriceInLBP;
-		let packagePriceInDollar: any 				   		 = this.myCurrentOrder.packagePriceInDollar;
-		let toBeCollectedFromReceiver: any			     = this.myCurrentOrder.toBeCollectedFromReceiver;
-		let orderRate: any											     = this.myCurrentOrder.rateOnOrder;
-		let partiaLLSender: any                      = this.myCurrentOrder.deliveryCostPBSPartialPriceLL;
-		let deliveryCost: any                        = this.myCurrentOrder.deliveryCost;
-		let multipleDelivery: any 							     = this.myCurrentOrder.multipleDelivery;
-		
-		let totalDelivery: any 								       = deliveryCost * multipleDelivery;
-		let diffDeliveryPartial: any 						     = totalDelivery - partiaLLSender;
-		
-		if (deliveryCostPaidBySender) {
-			dcFinal = 0;
-		}
-		else if (deliveryCostPaidBySenderPartial) {
-			dcFinal = diffDeliveryPartial;
-		}
-		else {
-			dcFinal = totalDelivery;
-		}
-		
-		if (orderRate != currentRATE) {
-			packagePriceLBPCurrencyDollar = currentRATE * packagePriceInDollar;
-		}
-		else {
-			packagePriceLBPCurrencyDollar = this.myCurrentOrder.packagePriceLBPCurrencyDollar;
-		}
-
-		//lastShowing
-
-		if (packagePriceInLBP > 0 && isAndOrder && packagePriceInDollar == 0) {
-			this.myCurrentOrder.orLL = true;
-			this.myCurrentOrder.orUSD = false;
-
-			this.conn.signatureData = this.receiver+ "Paid" + toBeCollectedFromReceiver + " LL";
-			this.payll = this.conn.signatureData;
-			this.payusd = 0;
-		}
-		else {
-			if (packagePriceInLBP > 0 && isAndOrder && packagePriceInDollar > 0) { //ll > 0 AND USD > 0
+			this.showChooser = false;
+	
+			let currentRATE: any = +data;
+			this.conn.currentCompanyRate = currentRATE;
+	
+			this.payll = "0";
+			this.payusd = "1";
+	
+			let packagePriceLBPCurrencyDollar: any;
+			let dcFinal: any;
+	
+			let andCapital: any = " AND ";
+			let andMin: any = " and ";
+			let orCapital: any = " OR ";
+			let orMin: any = " or ";
+	
+			let lastShowing: any = "";
+	
+			let isAndOrder: boolean = this.myCurrentOrder.packagePricesAND;
+			let deliveryCostPaidBySender: boolean =
+				this.myCurrentOrder.deliveryCostPaidBySender;
+			let deliveryCostPaidBySenderPartial: boolean =
+				this.myCurrentOrder.deliveryCostPaidBySenderPartial;
+	
+			let packagePriceInLBP: any = this.myCurrentOrder.packagePriceInLBP;
+			let packagePriceInDollar: any =
+				this.myCurrentOrder.packagePriceInDollar;
+			let toBeCollectedFromReceiver: any =
+				this.myCurrentOrder.toBeCollectedFromReceiver;
+			let orderRate: any = this.myCurrentOrder.rateOnOrder;
+			let partiaLLSender: any =
+				this.myCurrentOrder.deliveryCostPBSPartialPriceLL;
+			let deliveryCost: any = this.myCurrentOrder.deliveryCost;
+			let multipleDelivery: any = this.myCurrentOrder.multipleDelivery;
+	
+			let totalDelivery: any = deliveryCost * multipleDelivery;
+			let diffDeliveryPartial: any = totalDelivery - partiaLLSender;
+	
+			if (deliveryCostPaidBySender) {
+				dcFinal = 0;
+			} else if (deliveryCostPaidBySenderPartial) {
+				dcFinal = diffDeliveryPartial;
+			} else {
+				dcFinal = totalDelivery;
+			}
+	
+			if (orderRate != currentRATE) {
+				packagePriceLBPCurrencyDollar = currentRATE * packagePriceInDollar;
+			} else {
+				packagePriceLBPCurrencyDollar =
+				this.myCurrentOrder.packagePriceLBPCurrencyDollar;
+			}
+	
+			//lastShowing
+	
+			if (packagePriceInLBP > 0 && isAndOrder && packagePriceInDollar == 0) {
+				this.myCurrentOrder.orLL = true;
+				this.myCurrentOrder.orUSD = false;
+	
+				this.conn.signatureData =
+				this.receiver + " - " + toBeCollectedFromReceiver + " LL";
+				this.payll = this.conn.signatureData;
+				this.payusd = 0;
+			} else {
+				if (packagePriceInLBP > 0 && isAndOrder && packagePriceInDollar > 0) {
+				//ll > 0 AND USD > 0
 				if (currentRATE == 0) {
 					this.myCurrentOrder.orLL = false;
 					this.myCurrentOrder.orUSD = true;
-
+	
 					//Show USD: toBeCollectedFromReceiver andCapital packagePriceInDollar
-					this.conn.signatureData = this.receiver+ "Paid" + toBeCollectedFromReceiver + " LL" + andCapital + packagePriceInDollar + " $";
+					this.conn.signatureData =
+					this.receiver +
+					" - " +
+					toBeCollectedFromReceiver +
+					" LL" +
+					andCapital +
+					packagePriceInDollar +
+					" $";
 					this.payll = 0;
 					this.payusd = this.conn.signatureData;
-				}
-				else {
+				} else {
 					//Choose between LL or USD
 					//Show LL:  toBeCollectedFromReceiver andCapital (packagePriceLBPCurrencyDollar)
 					//Show USD: toBeCollectedFromReceiver andCapital packagePriceInDollar
-
-					let totalLL: any = toBeCollectedFromReceiver + packagePriceLBPCurrencyDollar;
-
+	
+					let totalLL: any =
+					toBeCollectedFromReceiver + packagePriceLBPCurrencyDollar;
+	
 					this.payll = totalLL + " LL";
-					this.payusd = toBeCollectedFromReceiver + " LL" + andCapital + packagePriceInDollar + " $";
+					this.payusd =
+					toBeCollectedFromReceiver +
+					" LL" +
+					andCapital +
+					packagePriceInDollar +
+					" $";
 				}
-			}
-			else if (packagePriceInLBP > 0 && !isAndOrder && packagePriceInDollar > 0) { //ll > 0 OR USD > 0
+				} else if (
+				packagePriceInLBP > 0 &&
+				!isAndOrder &&
+				packagePriceInDollar > 0
+				) {
+				//ll > 0 OR USD > 0
 				//Choose between LL or USD
 				//Show LL:  toBeCollectedFromReceiver ONLY
 				//Show USD: packagePriceInDollar andCapital LL: dcFinal
-
+	
 				this.payll = toBeCollectedFromReceiver + " LL";
-
+	
 				if (dcFinal > 0) {
-					this.payusd = dcFinal + " LL" + andCapital + packagePriceInDollar + " $";	
-				}
-				else {
+					this.payusd =
+					dcFinal + " LL" + andCapital + packagePriceInDollar + " $";
+				} else {
 					this.payusd = packagePriceInDollar + " $";
 				}
-			}
-			else if (packagePriceInLBP == 0 && isAndOrder && packagePriceInDollar > 0) { //ll = 0 AND USD > 0
+				} else if (
+				packagePriceInLBP == 0 &&
+				isAndOrder &&
+				packagePriceInDollar > 0
+				) {
+				//ll = 0 AND USD > 0
 				if (currentRATE == 0) {
 					this.myCurrentOrder.orLL = false;
 					this.myCurrentOrder.orUSD = true;
-
+	
 					//Show USD: toBeCollectedFromReceiver andCapital packagePriceInDollar
-					this.conn.signatureData = this.receiver+ "Paid" + toBeCollectedFromReceiver + " LL" + andCapital + packagePriceInDollar + " $";
+					this.conn.signatureData =
+					this.receiver +
+					" - " +
+					toBeCollectedFromReceiver +
+					" LL" +
+					andCapital +
+					packagePriceInDollar +
+					" $";
 					this.payll = 0;
 					this.payusd = this.conn.signatureData;
-				}
-				else {
-				//Choose between LL or USD
-				//Show LL:  packagePriceLBPCurrencyDollar + dcFinal ONLY
-				//Show USD: packagePriceInDollar andCapital LL: dcFinal
-					
-					let totalLL: any = packagePriceLBPCurrencyDollar + dcFinal;	
-					
-				this.payll = totalLL + " LL";
-				
+				} else {
+					//Choose between LL or USD
+					//Show LL:  packagePriceLBPCurrencyDollar + dcFinal ONLY
+					//Show USD: packagePriceInDollar andCapital LL: dcFinal
+	
+					let totalLL: any = packagePriceLBPCurrencyDollar + dcFinal;
+	
+					this.payll = totalLL + " LL";
+	
 					if (dcFinal > 0) {
-					this.payusd = dcFinal + " LL" + andCapital + packagePriceInDollar + " $";	
-					}
-					else {
-						this.payusd = packagePriceInDollar + " $";
+					this.payusd =
+						dcFinal + " LL" + andCapital + packagePriceInDollar + " $";
+					} else {
+					this.payusd = packagePriceInDollar + " $";
 					}
 				}
-			}
-			else if (packagePriceInLBP == 0 && !isAndOrder && packagePriceInDollar == 0) { //ll = 0 OR USD = 0
+				} else if (
+				packagePriceInLBP == 0 &&
+				!isAndOrder &&
+				packagePriceInDollar == 0
+				) {
+				//ll = 0 OR USD = 0
 				if (dcFinal > 0) {
 					//Show dcFinal ONLY
-					this.conn.signatureData = this.receiver+ "Paid" + dcFinal + " LL";
+					this.conn.signatureData = this.receiver + " - " + dcFinal + " LL";
 					this.payll = this.conn.signatureData;
 					this.payusd = 0;
-
-					this.router.navigateByUrl('/signature');
-				}
-				else {
+	
+					this.router.navigateByUrl("/signature");
+				} else {
 					this.myCurrentOrder.packagePricesAND = true;
-					this.router.navigateByUrl('/signature');
+					this.router.navigateByUrl("/signature");
 				}
-			}
-			else if (packagePriceInLBP > 0 && !isAndOrder && packagePriceInDollar == 0) { //ll > 0 OR USD = 0
+				} else if (
+				packagePriceInLBP > 0 &&
+				!isAndOrder &&
+				packagePriceInDollar == 0
+				) {
+				//ll > 0 OR USD = 0
 				this.myCurrentOrder.orLL = true;
 				this.myCurrentOrder.orUSD = false;
 				this.myCurrentOrder.packagePricesAND = true;
-
+	
 				//Show LL: toBeCollectedFromReceiver ONLY
-				this.conn.signatureData = this.receiver+ "Paid" + toBeCollectedFromReceiver + " LL";
+				this.conn.signatureData =
+					this.receiver + " - " + toBeCollectedFromReceiver + " LL";
 				this.payll = this.conn.signatureData;
 				this.payusd = 0;
-			}
-			else if (packagePriceInLBP == 0 && isAndOrder && packagePriceInDollar == 0) { //ll = 0 AND USD = 0
+				} else if (
+				packagePriceInLBP == 0 &&
+				isAndOrder &&
+				packagePriceInDollar == 0
+				) {
+				//ll = 0 AND USD = 0
 				if (dcFinal > 0) {
 					//Show dcFinal ONLY
-					this.conn.signatureData = this.receiver+ "Paid" + dcFinal + " LL";
+					this.conn.signatureData = this.receiver + " - " + dcFinal + " LL";
 					this.payll = this.conn.signatureData;
 					this.payusd = 0;
-					
-					this.router.navigateByUrl('/signature');
+	
+					this.router.navigateByUrl("/signature");
+				} else {
+					this.router.navigateByUrl("/signature");
 				}
-				else {
-					this.router.navigateByUrl('/signature');
-				}
-			}
-			else if (packagePriceInLBP == 0 && !isAndOrder && packagePriceInDollar == 0) { //ll = 0 OR USD = 0
+				} else if (
+				packagePriceInLBP == 0 &&
+				!isAndOrder &&
+				packagePriceInDollar == 0
+				) {
+				//ll = 0 OR USD = 0
 				if (dcFinal > 0) {
 					//Show dcFinal ONLY
-					this.conn.signatureData = this.receiver+ "Paid" + dcFinal + " LL";
+					this.conn.signatureData = this.receiver + " - " + dcFinal + " LL";
 					this.payll = this.conn.signatureData;
 					this.payusd = 0;
-
-					this.router.navigateByUrl('/signature');
+	
+					this.router.navigateByUrl("/signature");
+				} else {
+					this.router.navigateByUrl("/signature");
 				}
-				else {
-					this.router.navigateByUrl('/signature');
 				}
 			}
-		}
-
-		this.conn.packagePriceLBPCurrencyDollar = packagePriceLBPCurrencyDollar;
-		this.conn.orderRate 			       	 			= currentRATE;
-		this.conn.packagePricesAND						  = this.myCurrentOrder.packagePricesAND;
-		this.conn.payLLOrder 										= this.myCurrentOrder.orLL;
-		this.conn.payUSDOrder 									= this.myCurrentOrder.orUSD;
-
-		if (this.myCurrentOrder.orLL) {
-			this.paymentMethod('ll');
-		}
-		else if (this.myCurrentOrder.orUSD) {
-			this.paymentMethod('usd');
-		}
-		else {
-			this.showChooser = true;
-		}
-      });
+	
+			this.conn.packagePriceLBPCurrencyDollar = packagePriceLBPCurrencyDollar;
+			this.conn.orderRate = currentRATE;
+			this.conn.packagePricesAND = this.myCurrentOrder.packagePricesAND;
+			this.conn.payLLOrder = this.myCurrentOrder.orLL;
+			this.conn.payUSDOrder = this.myCurrentOrder.orUSD;
+	
+			if (this.myCurrentOrder.orLL) {
+				this.paymentMethod("ll");
+			} else if (this.myCurrentOrder.orUSD) {
+				this.paymentMethod("usd");
+			} else {
+				this.showChooser = true;
+			}
+			});
 	}
+	
 
 	paymentMethod(typeOfPayment){
 		if (typeOfPayment === 'll') {

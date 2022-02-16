@@ -9,7 +9,6 @@ platforms/
 plugins/
 dist/
 www/
-resources/
 # Compiled Java class files
 *.class
 

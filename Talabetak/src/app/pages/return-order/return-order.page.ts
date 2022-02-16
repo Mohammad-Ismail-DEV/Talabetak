@@ -94,20 +94,19 @@ export class ReturnOrderPage implements OnInit {
       if (this.paySenLBP > 0 || this.paySenUSD > 0) {
         this.conn.signatureData =
           this.sender +
-          ' Received ' +
+          ' - ' +
           this.paySenLBP +
-          'LL and ' +
+          ' LL -  ' +
           this.paySenUSD +
-          '$';
+          ' $';
       }
       if (this.collectSenLBP > 0 || this.collectSenUSD > 0) {
         this.conn.signatureData =
-          this.sender +
-          ' paid ' +
+          this.sender + " - "
           this.collectSenLBP +
-          'LL and ' +
+          ' LL - ' +
           this.collectSenUSD +
-          '$';
+          ' $';
       }
 			localStorage.setItem("signatureData", this.conn.signatureData)
       this.router.navigateByUrl('/signature');

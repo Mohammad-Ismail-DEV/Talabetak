@@ -83,20 +83,20 @@ export class OpuOrderPage implements OnInit {
       if (this.toBePaidUSD > 0 && this.toBePaidLBP > 0) {
         this.conn.signatureData =
           this.sender +
-          ' Received ' +
+          ' - ' +
           this.toBePaidUSD +
-          '$' +
-          ' and ' +
+          ' $' +
+          ' - ' +
           this.toBePaidLBP +
-          'LL';
+          ' LL';
       } else if (this.toBePaidUSD > 0 && this.toBePaidLBP === 0) {
-        this.conn.signatureData = this.sender + ' Received ' + this.toBePaidUSD;
+        this.conn.signatureData = this.sender + ' - ' + this.toBePaidUSD;
       } else if (this.toBePaidLBP > 0 && this.toBePaidUSD === 0) {
-        this.conn.signatureData = this.sender + ' Received ' + this.toBePaidLBP;
+        this.conn.signatureData = this.sender + ' - ' + this.toBePaidLBP;
 			} else if (this.toBePaidUSD === 0 && this.toBePaidLBP === 0) {
         this.conn.signatureData =
           this.sender +
-          ' Received Nothing'
+          ' - 0'
 			}
 			localStorage.setItem("signatureData", this.conn.signatureData)
       this.router.navigateByUrl('/signature');
