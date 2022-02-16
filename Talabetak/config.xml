@@ -1,8 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
+<<<<<<< HEAD
 <widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>TalabetakDriver</name>
+=======
+<widget id="talabetak.ionic.starter" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Talabetak</name>
+>>>>>>> 6b6d70c1c2569272c492ad566069bc10d59e82ed
     <description>An awesome Ionic/Cordova app.</description>
-    <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
+    <author email="mohamad.ismail.dev@gmail.com" href="http://remixcode.com/">Mohamad Ismail</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
