@@ -341,7 +341,7 @@ export class DeliveryOrderPage implements OnInit {
 
 	paymentMethod(typeOfPayment){
 		if (typeOfPayment === 'll') {
-			this.conn.signatureData = this.receiver+ "Paid" + this.payll;
+			this.conn.signatureData = this.receiver+ " - " + this.payll;
 
 			this.conn.payLLOrder 										= true;
 			this.conn.payUSDOrder 									= false;
@@ -349,7 +349,7 @@ export class DeliveryOrderPage implements OnInit {
 			this.navigate('signature')
 		}
 		if (typeOfPayment === 'usd') {
-			this.conn.signatureData = this.receiver+ "Paid" + this.payusd;
+			this.conn.signatureData = this.receiver+ " - " + this.payusd;
 
 			this.conn.payLLOrder 										= false;
 			this.conn.payUSDOrder 									= true;
