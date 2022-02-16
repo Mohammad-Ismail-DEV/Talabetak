@@ -590,19 +590,19 @@ export class Connections {
 		console.log(result)
     var headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json');
-		//headers = headers.append('Authorization', 'Bearer ' + localStorage.getItem("token"));
-		//let object = {
-		//	order: JSON.parse(localStorage.getItem("order")).order,
-		//	transferTransferTrackId: this.trackId,
-		//	listScreenShots: result,
-		//}
-		//console.log({object})
+		headers = headers.append('Authorization', 'Bearer ' + localStorage.getItem("token"));
+		let object = {
+			order: JSON.parse(localStorage.getItem("order")).order,
+			transferTransferTrackId: this.trackId,
+			listScreenShots: result,
+		}
+		console.log({object})
     this.http
 			.post<any>(
-				//this.baseUrl + '/ordermngmt/ordermobile/addScreenShotToOrder',
-				//object,
-				"http://remixcode.com/services/public/api/saveRequest",
-        result[0],
+				this.baseUrl + '/ordermngmt/ordermobile/addScreenShotToOrder',
+				object,
+				//"http://remixcode.com/services/public/api/saveRequest",
+        //result[0],
         { headers: headers }
       )
       .subscribe((data) => {});
